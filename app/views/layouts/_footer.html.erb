@@ -1,13 +1,13 @@
 <footer class="footer">
   <small>
-    <% if not(logged_in_as_admin?) && not(logged_in_as_student?) %>
+    <% #if not(logged_in_as_admin?) && not(logged_in_as_student?) %>
       <ul>
-        <li><%= link_to "Criar conta admin", new_admin_path %></li>
-        <li><%= link_to "Entrar como admin", login_admins_path %></li>
+        <li><%= link_to "Criar conta admin", '#' %></li>
+        <li><%= link_to "Entrar como admin", '#' %></li>
       </ul>
-    <% else %>
+    <% #else %>
       Teste de proficiência. Sistema de cadastramento escolar.<br>
-    <% end %>
+    <% #end %>
   </small>
   <nav>
     <ul>
