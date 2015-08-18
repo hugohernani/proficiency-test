@@ -2,7 +2,7 @@
   <small>
     <% #if not(logged_in_as_admin?) && not(logged_in_as_student?) %>
       <ul>
-        <li><%= link_to "Criar conta admin", '#' %></li>
+        <li><%= link_to "Criar conta admin", new_admin_path %></li>
         <li><%= link_to "Entrar como admin", '#' %></li>
       </ul>
     <% #else %>
