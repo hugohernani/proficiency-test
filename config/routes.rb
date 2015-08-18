@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :students
+
   root 'static#home'
   get 'static/home'
   get 'static/enroll'

@@ -13,8 +13,11 @@ Rails.application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  # action_mailer configuration
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :test
+  host = 'localhost:3000'
+  config.action_mailer.default_url_options = { host: host }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -40,17 +43,20 @@ Rails.application.configure do
     g.fixture_replacement :factory_girl
     g.factory_girl dir: 'spec/support/factories'
 
-    g.test_framework :rspec, :view_specs => false, :request_specs => false, :routing_specs => false
+    g.test_framework :rspec, :view_specs => false, :helper_specs => false,
+                     :request_specs => false, :routing_specs => false
 
     # Set scaffold controller
-    g.scaffold_controller = :my_controller
+    # g.scaffold_controller = :my_controller
 
     # Disabling some generators
-    g.helper      = false
+    # g.helper      = false
     g.stylesheets = false
     g.javascripts = false
     g.jbuilder    = false
   end
+
+
 
   # Use Pry instead of IRB
   silence_warnings do
@@ -60,4 +66,5 @@ Rails.application.configure do
     rescue LoadError
     end
   end
+
 end
