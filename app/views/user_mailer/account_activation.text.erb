@@ -1,0 +1,6 @@
+Olá <%= @user.name %>,
+
+Bem vindo a página para um teste de proficiência! ;)
+Clique no (ou copie e cole na barra de endereço do navegador o) link abaixo para ativar a sua conta
+
+<%= edit_account_activation_url(@user.activation_token, email: @user.email) %>

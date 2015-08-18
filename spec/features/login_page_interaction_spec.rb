@@ -5,7 +5,7 @@ feature 'Visitor signs up'do
   context 'admin' do
 
     scenario 'login in and out with valid email and password' do
-      admin = sign_up(FactoryGirl.build(:admin))
+      admin = FactoryGirl.create(:admin)
 
       sign_in_with :admin, admin.email, admin.password
 
@@ -42,7 +42,7 @@ feature 'Visitor signs up'do
   context 'student' do
 
     scenario 'login in and out with valid email and password' do
-      student = sign_up(FactoryGirl.build(:student))
+      student = FactoryGirl.create(:student)
 
       sign_in_with :student, student.email, student.password
 
@@ -88,18 +88,5 @@ feature 'Visitor signs up'do
 
     click_button 'Entrar'
   end
-
-  def sign_up(user)
-    if user.is_a? Admin
-      Admin.create!(name: user.name, email: user.email,
-                  password:              user.password,
-                  password_confirmation: user.password_confirmation)
-    elsif user.is_a? Student
-      Student.create!(name: user.name, email: user.email,
-                    password:              user.password,
-                    password_confirmation: user.password_confirmation)
-      end
-  end
-
 
 end

@@ -3,13 +3,11 @@ require 'rails_helper'
 RSpec.describe AdminsController, :type => :controller do
 
   let(:valid_attributes) {
-    {:name => "Hugo Hernani", :email => "hhernanni@gmail.com",
-    :password => "123456", :password_confirmation => "123456"}
+    FactoryGirl.attributes_for(:admin)
   }
 
   let(:invalid_attributes) {
-    {:name => "    ", :email => "hhernanni,@gmail,,com",
-    :password => "123456", :password_confirmation => "654321"}
+    FactoryGirl.attributes_for(:invalid_admin)
   }
 
   let(:valid_session) { {} }

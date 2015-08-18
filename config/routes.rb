@@ -1,16 +1,33 @@
 Rails.application.routes.draw do
-  resources :admins
 
+  resources :password_resets, only: [:new, :create, :edit, :update]
+
+  resources :account_activations, only: [:edit]
+
+  get 'login'    => 'sessions#new'
+  post 'login'    => 'sessions#create'
+  delete 'logout'    => 'sessions#destroy'
+
+  resources :admins do
+    collection do
+      get 'login'     => 'sessions#new_admin'
+      post 'login'    => 'sessions#create_admin'
+      delete 'logout' => 'sessions#destroy_admin'
+    end
+  end
   resources :students
 
   root 'static#home'
-  get 'static/home'
-  get 'static/enroll'
+  get 'home' => 'static#root'
+  get 'enroll' => 'static#enroll'
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
+  # root 'welcome#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

@@ -1,10 +1,18 @@
 class StudentsController < ApplicationController
   before_action :set_student, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in_student, only: [:edit, :update]
+  before_action :correct_user, only: [:edit, :update]
+  before_action :admin_user, only: :destroy
 
   # GET /students
   # GET /students.json
   def index
-    @students = Student.all
+    unless (logged_in_as_admin? || logged_in_as_student?)
+      flash[:danger] = "Por favor, realize o login."
+      redirect_to root_path
+    else
+      @students = Student.paginate(page: params[:page])
+    end
   end
 
   # GET /students/1
@@ -28,7 +36,11 @@ class StudentsController < ApplicationController
 
     respond_to do |format|
       if @student.save
-        format.html { redirect_to @student, notice: 'Student was successfully created.' }
+        format.html {
+          @student.send_activation_email
+          flash[:info] = "Você receberá um email de confirmação em breve."
+          redirect_to root_url
+        }
         format.json { render action: 'show', status: :created, location: @student }
       else
         format.html { render action: 'new' }
@@ -42,7 +54,10 @@ class StudentsController < ApplicationController
   def update
     respond_to do |format|
       if @student.update(student_params)
-        format.html { redirect_to @student, notice: 'Student was successfully updated.' }
+        format.html {
+          flash[:success] = 'Perfil atualizado'
+          redirect_to @student
+        }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -56,7 +71,10 @@ class StudentsController < ApplicationController
   def destroy
     @student.destroy
     respond_to do |format|
-      format.html { redirect_to students_url }
+      format.html {
+        flash[:success] = "Estudante apagado."
+        redirect_to students_url
+      }
       format.json { head :no_content }
     end
   end
@@ -69,6 +87,23 @@ class StudentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
-      params.require(:student).permit(:name, :email, :status)
+      params.require(:student).permit(:name, :email, :password, :password_confirmation)
     end
+
+    def logged_in_student
+      unless logged_in_as_student?
+        store_location
+        flash[:danger] = "Por favor, realize o login."
+        redirect_to login_url
+      end
+    end
+
+    def correct_user
+      redirect_to(root_path) unless current_user?(@student)
+    end
+
+    def admin_user
+      redirect_to(root_path) unless logged_in_as_admin?
+    end
+
 end
