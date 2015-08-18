@@ -1,29 +1,10 @@
-<h1>Listing students</h1>
+<% provide(:title, 'Todos os estudantes') %>
+<h1>Todos os estudantes</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Status</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<%= will_paginate %>
 
-  <tbody>
-    <% @students.each do |student| %>
-      <tr>
-        <td><%= student.name %></td>
-        <td><%= student.email %></td>
-        <td><%= student.status %></td>
-        <td><%= link_to 'Show', student %></td>
-        <td><%= link_to 'Edit', edit_student_path(student) %></td>
-        <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<ul class="users">
+  <%= render @students %>
+</ul>
 
-<br>
-
-<%= link_to 'New Student', new_student_path %>
+<%= will_paginate %>

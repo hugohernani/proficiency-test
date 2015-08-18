@@ -1,6 +1,29 @@
-<h1>Editing student</h1>
+<% provide(:title, "Alterar perfil") %>
+<h1>Altere seu perfil</h1>
 
-<%= render 'form' %>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(@student) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
 
-<%= link_to 'Show', @student %> |
-<%= link_to 'Back', students_path %>
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control' %>
+
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control' %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+
+      <%= f.label :password_confirmation, "Confirmation" %>
+      <%= f.password_field :password_confirmation, class: 'form-control' %>
+
+      <%= f.submit "Salvar alterações", class: "btn btn-primary" %>
+    <% end %>
+
+    <div class="gravatar_edit">
+      <%= gravatar_for @student %>
+      <a href="http://gravatar.com/emails" target="_blank">Altere seu <i>gravatar</i></a>
+    </div>
+  </div>
+</div>
