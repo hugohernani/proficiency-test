@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'static#index'
+  root 'static#home'
   get 'static/home'
   get 'static/enroll'
 
