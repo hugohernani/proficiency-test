@@ -5,6 +5,14 @@ Teste de proficiência técnica para comprovar conhecimento em RubyOnRails, RSpe
 Esse aplicativo esta hospedado no heroku. E pode ser acessado através do link:
 https://proficiency-test-hugo.herokuapp.com/
 
+## Detalhes para uso
+
+Há uma conta de administrador já criada no banco de dados da aplicação hospeadada no heroku, a qual pode ser usada como exemplo:
+
+**email: admin@example.com**
+
+**senha: 123456**
+
 ## O que ainda poderia ser feito para melhorar a experiência do usuário com a aplicação
 
 1. Além da opção de cadastrar estudante por seu perfil ou pelo perfil de algum curso, uma outra alternativa seria uma página apropriada para cadastramento em lote, com listagem e pesquisa tanto de estudantes quanto de curso realizada pelo administrador/professor.

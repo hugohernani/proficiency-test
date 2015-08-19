@@ -1,6 +1,6 @@
 Admin.create!(
-  name: "Hugo Hernani",
-  email: "hhernanni@gmail.com",
+  name: "Administrador padrão",
+  email: "admin@example.com",
   password: "123456",
   password_confirmation: "123456")
 
