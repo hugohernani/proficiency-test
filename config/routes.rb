@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :courses
+
   resources :password_resets, only: [:new, :create, :edit, :update]
 
   resources :account_activations, only: [:edit]

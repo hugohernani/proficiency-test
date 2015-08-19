@@ -14,6 +14,10 @@ RSpec.describe SessionsController, :type => :controller do
 
   describe "Student rest http interaction" do
 
+    before(:all) do
+      Student.delete_all # workaround for ActiveRecord/Rspec problem not detected yet. TODO
+    end
+
     let(:valid_attributes){
       FactoryGirl.attributes_for(:student)
     }
@@ -71,7 +75,7 @@ RSpec.describe SessionsController, :type => :controller do
     it "should redirects to the requested page when passing\
     session_valid_attributes for before hand created admin" do
       admin = sign_up :admin, valid_attributes
-  
+
       session[:forwarding_url] = edit_admin_path(admin) # simulating sessions
 
       post :create_admin, {session: valid_attributes}

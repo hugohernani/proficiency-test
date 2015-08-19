@@ -38,7 +38,11 @@ class StudentsController < ApplicationController
       if @student.save
         format.html {
           @student.send_activation_email
-          flash[:info] = "Você receberá um email de confirmação em breve."
+          if logged_in_as_admin?
+            flash[:info] = "Em breve o estudante cadastrado receberá um email de confirmação."
+          else
+            flash[:info] = "Em breve um email de confirmação será enviado para o email fornecido"
+          end
           redirect_to root_url
         }
         format.json { render action: 'show', status: :created, location: @student }

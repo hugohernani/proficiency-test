@@ -1,8 +1,8 @@
-<li>
+<div class="col-md-6">
   <%= gravatar_for student, size: 50 %>
   <%= link_to student.name, student %>
   <% if logged_in_as_admin? %>
     | <%= link_to "Apagar", student, method: :delete,
                                   data: { confirm: "Tem certeza?" } %>
   <% end %>
-</li>
+</div>

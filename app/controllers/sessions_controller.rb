@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  before_action :logged_in, only: [:new, :new_admin]
 
   # new student session
   def new
@@ -50,6 +51,14 @@ class SessionsController < ApplicationController
       else
         flash.now[:danger] = 'Invalid email/password combination'
         user_type == :admin ? render("new_#{user_type}") : render('new')
+      end
+    end
+
+    def logged_in
+      if logged_in_as_admin? || logged_in_as_student?
+        store_location
+        flash[:danger] = "Por favor, saia da sua conta antes de tentar entrar como outro usuário."
+        redirect_to root_path
       end
     end
 

@@ -1,9 +1,32 @@
 <div class="center jumbotron">
-  <h1>Bem vindo, visitante!</h1>
+  <h1>Bem vindo, <%= logged_in_as_admin? ? current_admin.name : (logged_in_as_student? ? current_student.name : "visitante!") %></h1>
+
+<% if logged_in_as_admin? %>
+
+  <p>
+    Quantidade de cursos cadastrados: <%= @count_courses %>
+  </p>
+
+  <p>
+    Quantidade de estudantes cadastrados: <%= @count_students %>
+  </p>
+
+  <%= link_to "Visualizar solicitações", '#', class: "btn btn-lg btn-primary" %>
+
+<% elsif logged_in_as_student? %>
+
+  <p>
+    Quantidade de cursos matriculados: <%= link_to @count_courses, courses_path, class: "btn btn-info" %>
+  </p>
+
+<% else %>
 
   <h2>
     Esta é a página inicial do teste de proficiência.
   </h2>
 
   <%= link_to "Cadastrar-se como estudante", new_student_path, class: "btn btn-lg btn-primary" %>
+
+<% end %>
+
 </div>

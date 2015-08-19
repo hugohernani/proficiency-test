@@ -1,0 +1,33 @@
+<% provide(:title, @course.name) %>
+
+<div class="center jumbotron">
+  <h1><%= @course.name %></h1>
+
+  <p>
+    <%= @course.description %>
+  </p>
+
+  <h2>
+    Criado há <%= time_ago_in_words(@course.created_at) %>.
+  </h2>
+
+<% if logged_in_as_admin? %>
+
+  <%= link_to "Excluir?", @course, class: "btn btn-lg btn-primary",
+              method: :delete, data: { confirm: "Tem certeza?" } %>
+
+<article class="row">
+  <%= @students.each do |student| %>
+    <div class="col-md-3">
+      <%= gravatar_for student, size: 50 %>
+      <%= link_to student.name, student %>
+        | <%= link_to "Retirar", student, method: :delete,
+                                      data: { confirm: "Tem certeza?" } %>
+    </div>
+  <% end %>
+</article>
+
+<% else %>
+</div>
+
+<% end %>

@@ -2,6 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Student, :type => :model do
 
+  before(:all) do
+    Student.delete_all # workaround for ActiveRecord/Rspec. Problem not detected yet. TODO
+  end
+
   before(:each) do
     @student = FactoryGirl.build(:student)
   end

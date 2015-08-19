@@ -2,6 +2,10 @@ require 'rails_helper'
 
 feature 'User lists'do
 
+  before(:all) do
+    Student.delete_all # workaround for ActiveRecord/Rspec. Problem not detected yet. TODO
+  end
+
   scenario 'check students list by pagination' do
     student = FactoryGirl.create(:student)
     sign_in_with :student, student.email, student.password

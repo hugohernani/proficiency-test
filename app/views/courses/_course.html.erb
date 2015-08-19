@@ -1,0 +1,13 @@
+<div class="col-md-6" id="course-<%= course.id %>">
+  <a class="title" href="<%=course_path(course)%>"><%= course.name %></a>
+  <span class="description"><%= course.description %></span>
+  <span class="timestamp">
+    Criado há <%= time_ago_in_words(course.created_at) %>.
+  </span>
+  <span>
+  <% if logged_in_as_admin? %>
+  <%= link_to "Apagar", course, method: :delete, class: "description",
+                                  data: { confirm: "Tem certeza?" } %>
+  <% end %>
+  </span>
+</div>
