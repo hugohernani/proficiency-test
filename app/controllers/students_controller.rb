@@ -1,4 +1,5 @@
 class StudentsController < ApplicationController
+  before_action :denied_registering_if_logged_in, only: [:new]
   before_action :set_student, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_student, only: [:edit, :update]
   before_action :correct_user, only: [:edit, :update]
@@ -18,6 +19,9 @@ class StudentsController < ApplicationController
   # GET /students/1
   # GET /students/1.json
   def show
+    student = params[:id].nil? ? current_student : Student.find(params[:id])
+    @registered_courses = student.courses
+    @remaining_courses = Course.all - @registered_courses
   end
 
   # GET /students/new
@@ -83,6 +87,21 @@ class StudentsController < ApplicationController
     end
   end
 
+  def register_in
+    course = Course.find(params[:id])
+    student = Student.find(params[:student_id])
+    course.register_in(student)
+    redirect_to course
+  end
+
+  def unregister_in
+    course = Course.find(params[:id])
+    student = Student.find(params[:student_id])
+    course.unregister_in(student_id)
+    redirect_to course
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_student
@@ -109,5 +128,13 @@ class StudentsController < ApplicationController
     def admin_user
       redirect_to(root_path) unless logged_in_as_admin?
     end
+
+    def denied_registering_if_logged_in
+      if logged_in_as_student? || logged_in_as_admin?
+        flash[:danger] = "Não é permitido realizar o cadastro de outro estudante enquanto logado"
+        redirect_to root_path
+      end
+    end
+
 
 end

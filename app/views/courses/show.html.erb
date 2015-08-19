@@ -11,23 +11,48 @@
     Criado há <%= time_ago_in_words(@course.created_at) %>.
   </h2>
 
-<% if logged_in_as_admin? %>
+  <% if logged_in_as_admin? %>
 
-  <%= link_to "Excluir?", @course, class: "btn btn-lg btn-primary",
-              method: :delete, data: { confirm: "Tem certeza?" } %>
+    <%= link_to "Excluir?", @course, class: "btn btn-lg btn-primary",
+                method: :delete, data: { confirm: "Tem certeza?" } %>
 
-<article class="row">
-  <%= @students.each do |student| %>
-    <div class="col-md-3">
-      <%= gravatar_for student, size: 50 %>
-      <%= link_to student.name, student %>
-        | <%= link_to "Retirar", student, method: :delete,
-                                      data: { confirm: "Tem certeza?" } %>
-    </div>
   <% end %>
-</article>
 
-<% else %>
 </div>
 
+<% if @registered_students.empty? %>
+  <h1>Não há estudantes matriculados neste curso</h1>
+  <% else %>
+    <h1>Estudantes matriculados</h1>
+    <section class="row">
+      <% @registered_students.each do |student| %>
+        <div class="col-md-6">
+          <%= gravatar_for student, size: 50 %>
+          <% if logged_in_as_admin? || current_user?(student) %>
+            <%= link_to student.name, student %>
+              | <%= link_to "Desmatricular", unregister_in_course_path(@course, student_id: student.id),
+              method: :delete, data: { confirm: "Tem certeza que deseja a desmatricula?" } %>
+          <% end %>
+        </div>
+      <% end %>
+  </section>
+<% end %>
+<hr>
+<% if logged_in_as_admin? %>
+  <% if @unregistered_students.empty? %>
+    <h1>Não há estudantes restantes para matricula</h1>
+  <% else %>
+    <h1>Estudantes disponíveis</h1>
+    <section class="row">
+      <% @unregistered_students.each do |unregistered_student| %>
+        <div class="col-md-6">
+          <%= gravatar_for unregistered_student, size: 50 %>
+          <%= link_to unregistered_student.name, unregistered_student %>
+            | <%= link_to "Matricular",
+            register_in_course_path(@course, student_id: unregistered_student.id),
+            data: { confirm: "Tem certeza?" } %>
+        </div>
+      <% end %>
+    </section>
+  <% end %>
 <% end %>

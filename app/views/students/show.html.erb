@@ -7,8 +7,65 @@
         <%= @student.name %>
       </h1>
       <p>
-        <%= @student.register_number if current_user?(@student) %>
+        <%= @student.register_number if (current_user?(@student) || logged_in_as_admin?)  %>
+      </p>
+      <p>
+        Cursos matriculados: <%= @registered_courses.length %>
       </p>
     </section>
+    <section>
+    <% if logged_in_as_admin? %>
+      <% if @registered_courses.empty? %>
+        <h2>Nenhum curso matriculado</h2>
+      <% else %>
+        <h2>Cursos matriculados</h2>
+
+        <div class="stats_course">
+          <% @registered_courses.each do |course| %>
+            <h3><a href="<%= course_path(course) %>"><%= course.name %></a></h3>
+            <p><%= course.description %></p>
+            <small><%= link_to "Desmatricular",
+                unregister_in_student_path(@student, course_id: course.id), method: :delete,
+                class: "description", data: { confirm: "Tem certeza?" } %></small>
+            <hr>
+          <% end %>
+        </div>
+
+      <% end %>
+    <% end %>
+    <section>
   </aside>
+  <section>
+    <% if logged_in_as_admin? %>
+      <h1>Cursos disponíveis para este estudante</h1>
+      <div class="courses row">
+
+        <% @remaining_courses.each do |course| %>
+
+        <div class="col-md-6" id="course-<%= course.id %>">
+          <a class="title" href="<%=course_path(course)%>"><%= course.name %></a>
+          <span class="description"><%= course.description %></span>
+          <span class="timestamp">
+            Criado há <%= time_ago_in_words(course.created_at) %>.
+          </span>
+          <% if logged_in_as_admin? %>
+            <span>
+              <%= link_to "Realizar matricula",
+                  register_in_student_path(@student, course_id: course.id),
+                  class: "description", data: { confirm: "Tem certeza?" } %>
+            </span>
+          <% end %>
+        </div>
+
+        <% end %>
+      </div>
+    <% else %>
+      <h1>Cursos matriculados</h1>
+      <ul class="courses">
+        <% @registered_courses.each do |course| %>
+          <%= render 'courses/course', course: course %>
+        <% end %>
+      </ul>
+    <% end %>
+  </section>
 </div>

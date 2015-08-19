@@ -11,7 +11,7 @@ feature 'User lists'do
     sign_in_with :student, student.email, student.password
 
     visit "#{students_path}?page=1"
-    all_students_link = page.all(:css, 'ul[class=users] li a')
+    all_students_link = page.all(:css, 'div[class=users] div a')
     expect(all_students_link.length).to eq Student.count
     Student.paginate(page: 1).each_with_index do |student, index|
       expect(student.name).to eq all_students_link[index].text

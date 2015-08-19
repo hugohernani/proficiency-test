@@ -1,6 +1,9 @@
 class Student < ActiveRecord::Base
   attr_accessor :remember_token, :activation_token, :reset_token
 
+  has_many :classrooms, dependent: :destroy
+  has_many :courses, through: :classrooms
+
   before_save :downcase_email
   before_save :generate_register_number
   before_create :create_activation_digest
@@ -13,7 +16,7 @@ class Student < ActiveRecord::Base
             format: {with: VALID_EMAIL_REGEX},
             uniqueness: {case_sensitive: false}
   validates :status, presence: true
-  validates :register_number, presence: true, length: {minimum: 10}
+  validates :register_number, presence: true, length: {minimum: 10}, allow_nil:true
 
   has_secure_password
   # has_secure_password guarantee another validation. allow_nil allows updates without changing password
@@ -73,6 +76,18 @@ class Student < ActiveRecord::Base
   # Returns true if a password reset has expired.
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
+  end
+
+  def register_in(course)
+    classrooms.create(student_id: id, course_id: course.id)
+  end
+
+  def unregister_in(course_id)
+    classrooms.find_by_course_id(course_id).delete
+  end
+
+  def enrolled_in?(course)
+    courses.include?(course)
   end
 
   private

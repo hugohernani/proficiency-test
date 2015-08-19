@@ -1,4 +1,5 @@
 class AdminsController < ApplicationController
+  before_action :denied_registering_if_logged_in, only: [:new]
   before_action :set_admin, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_admin, only: [:edit, :update]
   before_action :correct_user, only: [:edit, :update]
@@ -65,6 +66,13 @@ class AdminsController < ApplicationController
 
     def correct_user
       redirect_to(root_path) unless current_user?(@admin)
+    end
+
+    def denied_registering_if_logged_in
+      if logged_in_as_admin? || logged_in_as_student?
+        flash[:danger] = "Não é permitido realizar o cadastro de outro administrador enquanto logado"
+        redirect_to root_path
+      end
     end
 
 end

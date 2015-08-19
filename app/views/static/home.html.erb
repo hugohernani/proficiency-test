@@ -3,20 +3,27 @@
 
 <% if logged_in_as_admin? %>
 
-  <p>
-    Quantidade de cursos cadastrados: <%= @count_courses %>
-  </p>
+  <h2>
+    Cursos cadastrados: <%= @count_courses %><br>
+    Estudantes cadastrados: <%= @count_students %>
+  </h2>
 
   <p>
-    Quantidade de estudantes cadastrados: <%= @count_students %>
+    Há duas formas de você, administrador, realizar a matrícula dos estudantes:
   </p>
-
-  <%= link_to "Visualizar solicitações", '#', class: "btn btn-lg btn-primary" %>
+  <div class="row">
+    <a href="<%= students_path %>" class="col-md-3 col-md-offset-2 btn btn-md btn-primary">
+      Através de cursos disponíveis <br>encontrados em seu perfil
+    </a>
+    <a href="<%= courses_path %>" class="col-md-3 col-md-offset-2 btn btn-md btn-primary">
+      Através do perfil <br>do curso
+    </a>
+  </div>
 
 <% elsif logged_in_as_student? %>
 
   <p>
-    Quantidade de cursos matriculados: <%= link_to @count_courses, courses_path, class: "btn btn-info" %>
+    Quantidade de cursos matriculados: <%= link_to @count_courses, courses_student_path(current_student), class: "btn btn-info" %>
   </p>
 
 <% else %>

@@ -1,5 +1,9 @@
-<% provide(:title, 'Todos os cursos') %>
-<h1>Todos os cursos</h1>
+<% provide(:title, @custom_title || 'Todos os cursos') %>
+<h1><%= @custom_title || "Todos os cursos" %></h1>
+
+<% if @courses.empty? %>
+  <h2>Nenhum curso matriculado</h2>
+<% else %>
 
 <%= will_paginate %>
 
@@ -8,3 +12,5 @@
 </div>
 
 <%= will_paginate %>
+
+<% end %>

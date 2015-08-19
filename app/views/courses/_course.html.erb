@@ -4,10 +4,15 @@
   <span class="timestamp">
     Criado há <%= time_ago_in_words(course.created_at) %>.
   </span>
-  <span>
   <% if logged_in_as_admin? %>
-  <%= link_to "Apagar", course, method: :delete, class: "description",
+    <span>
+      <%= link_to "Apagar", course, method: :delete, class: "description",
                                   data: { confirm: "Tem certeza?" } %>
+    </span>
+  <% elsif logged_in_as_student? %>
+    <span>
+      <%= link_to "Desmatricular", unregister_course_path(course), method: :delete, class: "description",
+                                  data: { confirm: "Tem certeza?" } %>
+    </span>
   <% end %>
-  </span>
 </div>

@@ -9,7 +9,7 @@ def register_number
   return "PRO#{today.strftime("%y%m%d")}#{Student.count}"
 end
 
-Student.create!(
+hugo_student = Student.create!(
   name: "Hugo Hernani",
   email: "hhernanni@gmail.com",
   password: "123456",
@@ -32,8 +32,10 @@ Course.create!(
                password:password, password_confirmation: password,
                activated: true,
                activated_at: Time.zone.now,
-               register_number: register_number)
+               register_number: register_number())
 
   Course.create!(name: "Curso #{n+2}",
               description: "Descrição para o curso #{n+2}")
 end
+
+Course.all[1..5].each { |course| hugo_student.register_in(course) }

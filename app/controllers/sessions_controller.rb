@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :logged_in, only: [:new, :new_admin]
+  before_action :logged_in, only: [:new_admin, :new]
 
   # new student session
   def new
@@ -41,6 +41,7 @@ class SessionsController < ApplicationController
         if user_type == :admin || user.activated?
           log_in user
           params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+          redirect_to root_url and return if user_type == :admin # TODO Not final implementation.
           redirect_back_or user
         else
           message = "Conta não ativada. "
@@ -56,10 +57,13 @@ class SessionsController < ApplicationController
 
     def logged_in
       if logged_in_as_admin? || logged_in_as_student?
-        store_location
-        flash[:danger] = "Por favor, saia da sua conta antes de tentar entrar como outro usuário."
-        redirect_to root_path
+        generic_message_path_logged_in
       end
+    end
+
+    def generic_message_path_logged_in
+      flash[:danger] = "Por favor, saia da sua conta antes de tentar entrar como outro usuário."
+      redirect_to root_path
     end
 
 end

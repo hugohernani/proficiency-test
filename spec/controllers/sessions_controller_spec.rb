@@ -79,7 +79,7 @@ RSpec.describe SessionsController, :type => :controller do
       session[:forwarding_url] = edit_admin_path(admin) # simulating sessions
 
       post :create_admin, {session: valid_attributes}
-      expect(response).to redirect_to edit_admin_path(admin)
+      expect(response).to redirect_to root_path
     end
 
     it "should be nil on session[:admin_id] on destroy and return to root_path" do

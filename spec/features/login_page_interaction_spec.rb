@@ -9,7 +9,7 @@ feature 'Visitor signs up'do
 
       sign_in_with :admin, admin.email, admin.password
 
-      expect(page.current_path).to eq admin_path(admin)
+      expect(page.current_path).to eq root_path
       expect(page).not_to have_css('.alert')
       expect(is_admin_logged_in?).to be_truthy
 
@@ -19,7 +19,7 @@ feature 'Visitor signs up'do
 
       visit edit_admin_path(admin)
       sign_in_with :admin, admin.email, admin.password
-      expect(page.current_path).to eq edit_admin_path(admin)
+      expect(page.current_path).to eq root_path
 
     end
 

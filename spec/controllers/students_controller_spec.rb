@@ -3,24 +3,14 @@ require 'rails_helper'
 RSpec.describe StudentsController, :type => :controller do
 
   let(:valid_attributes) {
-    {:name => "Hugo Hernani", :email => "hhernanni@gmail.com",
-    :password => "123456", :password_confirmation => "123456"}
+    FactoryGirl.attributes_for(:student)
   }
 
   let(:invalid_attributes) {
-    {:name => "    ", :email => "hhernanni,@gmail,,com",
-    :password => "123456", :password_confirmation => "654321"}
+    FactoryGirl.attributes_for(:invalid_student)
   }
 
   let(:valid_session) { {} }
-
-  # describe "GET index" do
-  #   it "assigns all students as @students" do
-  #     student = Student.create! valid_attributes
-  #     get :index, {}, valid_session
-  #     expect(assigns(:students)).to eq([student])
-  #   end
-  # end
 
   describe "GET show" do
     it "assigns the requested student as @student" do
@@ -47,6 +37,7 @@ RSpec.describe StudentsController, :type => :controller do
 
   describe "POST create" do
     describe "with valid params" do
+
       it "creates a new Student" do
         expect {
           post :create, {:student => valid_attributes}, valid_session
