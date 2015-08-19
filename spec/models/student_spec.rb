@@ -69,5 +69,19 @@ RSpec.describe Student, :type => :model do
     expect(@student).not_to be_valid
   end
 
+  it "should be invalid without a register_number" do
+    @student.register_number = " " * 10
+    expect(@student).not_to be_valid
+  end
+
+  it "should be invalid with a register_number with length smaller than 10" do
+    @student.register_number = "a" * 9
+    expect(@student).not_to be_valid
+  end
+
+  it "should have a register_number" do
+    expect(@student.register_number).not_to be_empty
+  end
+
 
 end

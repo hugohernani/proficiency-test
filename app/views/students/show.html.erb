@@ -6,6 +6,9 @@
         <%= gravatar_for @student %>
         <%= @student.name %>
       </h1>
+      <p>
+        <%= @student.register_number if current_user?(@student) %>
+      </p>
     </section>
   </aside>
 </div>

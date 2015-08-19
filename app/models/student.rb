@@ -2,6 +2,7 @@ class Student < ActiveRecord::Base
   attr_accessor :remember_token, :activation_token, :reset_token
 
   before_save :downcase_email
+  before_save :generate_register_number
   before_create :create_activation_digest
 
   enum status: { unregistered: 0, registered: 1}
@@ -12,6 +13,7 @@ class Student < ActiveRecord::Base
             format: {with: VALID_EMAIL_REGEX},
             uniqueness: {case_sensitive: false}
   validates :status, presence: true
+  validates :register_number, presence: true, length: {minimum: 10}
 
   has_secure_password
   # has_secure_password guarantee another validation. allow_nil allows updates without changing password
@@ -82,6 +84,11 @@ class Student < ActiveRecord::Base
     def create_activation_digest
       self.activation_token = Student.new_token
       self.activation_digest = Student.digest(activation_token)
+    end
+
+    def generate_register_number
+      generated_number = "PRO#{Date.today.strftime("%Y%m%d")}#{Student.count}"
+      self.register_number = generated_number
     end
 
 end

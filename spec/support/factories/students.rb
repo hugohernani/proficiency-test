@@ -9,6 +9,7 @@ FactoryGirl.define do
     status 1
     activated true
     activated_at Time.zone.now
+    register_number "PRO1507061" # PRO + YEAR + MONTH + DAY + NUMBER IN USER COUNT
   end
 
   factory :invalid_student, class: Student do
@@ -19,6 +20,7 @@ FactoryGirl.define do
     status 0
     activated true
     activated_at Time.zone.now
+    register_number "invalid"
   end
 
 end
