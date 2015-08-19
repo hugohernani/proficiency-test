@@ -20,13 +20,23 @@ RSpec.describe Course, :type => :model do
     expect(@course).not_to be_valid
   end
 
+  it "is expected not to have a name with length smaller than 5 characters" do
+    @course.name = "ssss"
+    expect(@course).not_to be_valid
+  end
+
   it "should be invalid without description" do
     @course.description = "    "
     expect(@course).not_to be_valid
   end
 
-  it "is expected not to have a name with length longer than 1000" do
+  it "is expected not to have a description with length longer than 1000" do
     @course.description = "a" * 1000 + "@example.com"
+    expect(@course).not_to be_valid
+  end
+
+  it "is expected not to have a description with length smaller than 10" do
+    @course.description = "dsdsdsdsd"
     expect(@course).not_to be_valid
   end
 

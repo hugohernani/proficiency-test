@@ -3,8 +3,8 @@ class Course < ActiveRecord::Base
   has_many :classrooms, dependent: :destroy
   has_many :students, through: :classrooms
 
-  validates :name, presence: true, length: {maximum: 50}
-  validates :description, presence: true, length: {maximum: 1000}
+  validates :name, presence: true, length: {minimum: 5, maximum: 50}
+  validates :description, presence: true, length: {minimum: 10, maximum: 1000}
 
   default_scope -> { order(created_at: :desc) }
 

@@ -7,7 +7,7 @@
       <%= f.text_field :name, class: 'form-control' %>
 
       <%= f.label :description, "Descrição" %>
-      <%= f.email_field :description, class: 'form-control' %>
+      <%= f.text_area :description, rows:8, cols: 40, class: 'form-control' %>
 
       <%= f.submit "Enviar", class: "btn btn-primary" %>
     <% end %>
